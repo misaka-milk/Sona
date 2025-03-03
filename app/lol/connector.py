@@ -997,6 +997,22 @@ class LolClientConnector(QObject):
 
         return await self.__patch("/lol-champ-select/v1/session/my-selection", data)
 
+    @retry()
+    async def getConversation(self):
+        res = await self.__get("/lol-chat/v1/conversations")
+        return await res.json()
+
+    @retry()
+    async def sendConversationNotify(self, id, message):
+        body = {
+            "body": message,
+            "id": id,
+            "type": "celebration"
+        }
+
+        res = await self.__post(f"/lol-chat/v1/conversations/{id}/messages", data=body)
+        return await res.json()
+
     async def spectate(self, summonerName):
         info = await self.getSummonerByName(summonerName)
         puuid = info.get('puuid')

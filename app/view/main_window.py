@@ -781,6 +781,8 @@ class MainWindow(FluentWindow):
         title = None
         isGaming = False
 
+        logger.critical(f"Client gameflow phase changed: {status}", TAG)
+
         if status == 'None':
             title = self.tr("Home")
             await self.__onGameEnd()
