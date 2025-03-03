@@ -871,6 +871,8 @@ class MainWindow(FluentWindow):
     # 进入英雄选择界面时触发
     async def __onChampionSelectBegin(self):
         self.championSelection.reset()
+        self.checkAndSwitchTo(self.gameInfoInterface)
+
         cSession, gSession = await asyncio.gather(connector.getChampSelectSession(),
                                                   connector.getGameflowSession())
 
@@ -890,8 +892,6 @@ class MainWindow(FluentWindow):
         currentSummonerId = self.currentSummoner['summonerId']
         info = await parseAllyGameInfo(cSession, currentSummonerId, queueId, useSGP=True)
         self.gameInfoInterface.updateAllySummoners(info)
-
-        self.checkAndSwitchTo(self.gameInfoInterface)
 
     # 英雄选择时，英雄改变 / 楼层改变时触发
     @asyncSlot(dict)
