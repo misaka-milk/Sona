@@ -412,6 +412,8 @@ class MainWindow(FluentWindow):
         careerAction = Action(Icon.PERSON, self.tr("Career"), self)
         searchAction = Action(Icon.SEARCH, self.tr("Search 👀"), self)
         gameInfoAction = Action(Icon.GAME, self.tr("Game Information"), self)
+        auxiliaryAction = Action(
+            Icon.WRENCH, self.tr("Auxiliary Functions"), self)
         settingsAction = Action(Icon.SETTING, self.tr("Settings"), self)
         quitAction = Action(Icon.EXIT, self.tr('Quit'), self)
 
@@ -429,6 +431,8 @@ class MainWindow(FluentWindow):
             lambda: showAndSwitch(self.searchInterface))
         gameInfoAction.triggered.connect(
             lambda: showAndSwitch(self.gameInfoInterface))
+        auxiliaryAction.triggered.connect(
+            lambda: showAndSwitch(self.auxiliaryFuncInterface))
         settingsAction.triggered.connect(
             lambda: showAndSwitch(self.settingInterface))
         quitAction.triggered.connect(quit)
@@ -438,6 +442,7 @@ class MainWindow(FluentWindow):
         self.trayMenu.addAction(careerAction)
         self.trayMenu.addAction(searchAction)
         self.trayMenu.addAction(gameInfoAction)
+        self.trayMenu.addAction(auxiliaryAction)
         self.trayMenu.addSeparator()
         self.trayMenu.addAction(settingsAction)
         self.trayMenu.addAction(quitAction)
@@ -731,7 +736,8 @@ class MainWindow(FluentWindow):
             msgBox.cancelButton.setText(self.tr('Exit'))
             self.update()
 
-            cfg.set(cfg.enableCloseToTray, (True if 1 == msgBox.exec() else False))
+            cfg.set(cfg.enableCloseToTray,
+                    (True if 1 == msgBox.exec() else False))
 
         if not cfg.get(cfg.enableCloseToTray) or self.isTrayExit:
             self.__terminateListeners()
